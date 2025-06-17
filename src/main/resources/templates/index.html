@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>파일 확장자 차단</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<div class="container">
+
+    <h2>파일 확장자 차단</h2>
+    <p>파일 확장자를 차단하여 업로드를 제한합니다.</p>
+
+    <!-- 고정 확장자 -->
+    <div class="fixed-extensions-group">
+        <div th:each="ext : ${fixedExtensionResponse.extensions}">
+            <label class="fixed-extension-item">
+                <input type="checkbox"
+                       class="fixed-checkbox"
+                       th:data-id="${ext.id}"
+                       th:checked="${ext.isCheck}">
+                <span th:text="${ext.extension}"></span>
+            </label>
+        </div>
+    </div>
+    <button id="save-fixed">저장</button>
+    <button id="reset-fixed">초기화</button>
+
+    <!-- 커스텀 확장자 -->
+    <div>
+        <h3>커스텀 확장자 <span th:text="${customExtensionResponse.size} + '/200'"></span></h3>
+        <form id="custom-form">
+            <input type="text" id="custom-input" maxlength="20" placeholder="확장자 입력">
+            <button type="submit">추가</button>
+        </form>
+
+        <div id="custom-list">
+            <div th:each="ext : ${customExtensionResponse.extensions}">
+                <span class="tag" th:id="'ext-' + ${ext.extensionId}">
+                    <span th:text="${ext.extension}"></span>
+                    <a href="#" th:data-id="${ext.extensionId}" class="delete-custom">X</a>
+                </span>
+            </div>
+        </div>
+
+        <button onclick="location.href='/custom-extensions/reset'">초기화</button>
+    </div>
+
+    <!-- 파일 업로드 -->
+    <div>
+        <h3>파일 업로드</h3>
+        <form th:action="@{/files}" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <button type="submit">업로드</button>
+        </form>
+
+        <h4>업로드 된 파일</h4>
+        <div th:each="file : ${uploadedFiles}" class="file-item">
+            <span th:text="${file.name}"></span>
+            <span th:text="${file.size} + ' mb'"></span>
+            <span th:text="${#temporals.format(file.uploadedAt, 'yyyy-MM-dd')}"></span>
+            <a th:href="@{/files/{id}/delete(id=${file.id})}">🗑</a>
+        </div>
+    </div>
+
+</div>
+<script>
+    // 고정 확장자 저장
+    $('#save-fixed').click(function () {
+        const checkedIds = $('.fixed-checkbox:checked').map(function () {
+            return $(this).data('id');
+        }).get();
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/fixed-extensions',
+            contentType: 'application/json',
+            data: JSON.stringify({ checkedIds }),
+            success: () => {
+                alert('저장 완료');
+                location.reload(); // 저장 후 새로고침으로 최신 상태 반영
+            },
+            error: () => alert('오류 발생')
+        });
+    });
+
+    $('#reset-fixed').click(function () {
+        $.ajax({
+            type: 'POST',
+            url: '/api/fixed-extensions/reset',
+            success: () => {
+                alert('초기화 완료');
+                location.reload(); // 초기화 후 새로고침
+            },
+            error: () => alert('초기화 실패')
+        });
+    });
+
+    // 커스텀 확장자 추가
+    $('#custom-form').submit(function (e) {
+        e.preventDefault();
+        const name = $('#custom-input').val().trim();
+        if (!name) {
+            alert('확장자를 입력해주세요.');
+            return;
+        }
+        $.post('/api/custom-extensions', { name })
+            .done(() => {
+                $('#custom-input').val(''); // 입력 필드 초기화
+                location.reload();
+            })
+            .fail(() => alert('추가 실패'));
+    });
+
+    // 커스텀 확장자 삭제
+    $(document).on('click', '.delete-custom', function (e) {
+        e.preventDefault();
+        const id = $(this).data('id');
+        $.ajax({
+            type: 'DELETE',
+            url: `/api/custom-extensions/${id}/delete`,
+            success: () => $(`#ext-${id}`).remove(),
+            error: () => alert('삭제 실패')
+        });
+    });
+</script>
+
+</body>
+</html>
