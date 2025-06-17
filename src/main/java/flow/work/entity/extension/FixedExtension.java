@@ -23,4 +23,12 @@ public class FixedExtension extends BaseTimeEntity {
 
     @Column(nullable = false)
     private boolean isCheck;
+
+    public void updateIsCheck(boolean isCheck) {
+        this.isCheck = isCheck;
+    }
+
+    public void updateNonCheck() {
+        this.isCheck = false;
+    }
 }
