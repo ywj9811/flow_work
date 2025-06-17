@@ -1,7 +1,7 @@
 package flow.work.service.extension;
 
-import flow.work.dto.CustomExtensionResponse;
-import flow.work.dto.CustomExtensionResponse.Extension;
+import flow.work.dto.res.CustomExtensionResponse;
+import flow.work.dto.res.CustomExtensionResponse.Extension;
 import flow.work.repository.extension.CustomExtensionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

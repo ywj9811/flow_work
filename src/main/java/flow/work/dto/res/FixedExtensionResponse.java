@@ -1,4 +1,4 @@
-package flow.work.dto;
+package flow.work.dto.res;
 
 import flow.work.entity.extension.FixedExtension;
 

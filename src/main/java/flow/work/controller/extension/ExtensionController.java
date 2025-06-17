@@ -1,7 +1,7 @@
 package flow.work.controller.extension;
 
-import flow.work.dto.CustomExtensionResponse;
-import flow.work.dto.FixedExtensionResponse;
+import flow.work.dto.res.CustomExtensionResponse;
+import flow.work.dto.res.FixedExtensionResponse;
 import flow.work.service.extension.CustomExtensionService;
 import flow.work.service.extension.FixedExtensionService;
 import lombok.RequiredArgsConstructor;
