@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class CustomExtension extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long customExtensionType;
+    private long customExtensionId;
 
     @Column(length = 20, unique = true, nullable = false)
     private String name;
