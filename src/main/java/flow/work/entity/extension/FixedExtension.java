@@ -1,5 +1,6 @@
-package flow.work.entity;
+package flow.work.entity.extension;
 
+import flow.work.util.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FixedExtension {
+public class FixedExtension extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long fixedExtensionId;
