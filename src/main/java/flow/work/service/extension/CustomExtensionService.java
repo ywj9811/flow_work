@@ -9,7 +9,6 @@ import flow.work.entity.extension.FixedExtensionType;
 import flow.work.mapper.ExtensionMapper;
 import flow.work.repository.extension.CustomExtensionRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Transactional
-@Slf4j
 public class CustomExtensionService {
     private final CustomExtensionRepository customExtensionRepository;
 
@@ -35,20 +33,26 @@ public class CustomExtensionService {
     }
 
     public void addCustomExtension(CustomExtensionAddRequest request) {
-        // todo : 최대 개수 확인 & 중복 등록 방지
-        log.info("name : " + request.name());
-        String cleaned = request.name()
-                .replace(".", "")
-                .replaceAll("\\s+", "")
-                .toUpperCase();
+        String cleaned = sanitizeExtension(request);
         validateCustomExtension(cleaned);
 
         CustomExtension customExtension = ExtensionMapper.toCustomExtension(cleaned);
         customExtensionRepository.save(customExtension);
     }
 
+    private String sanitizeExtension(CustomExtensionAddRequest request) {
+        String cleaned = request.name()
+                .replace(".", "")
+                .replaceAll("\\s+", "")
+                .toUpperCase();
+        return cleaned;
+    }
+
     private void validateCustomExtension(String cleaned) {
-        log.info("cleanName : " + cleaned);
+        if (cleaned.length() > 20) {
+            throw new IllegalArgumentException("확장자는 최대 20자까지 가능합니다.");
+        }
+
         if (!cleaned.matches("^[A-Z]+$")) {
             throw new IllegalArgumentException("확장자는 알파벳만 입력 가능합니다.");
         }
