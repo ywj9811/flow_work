@@ -59,4 +59,7 @@ public class UploadFileService {
         return filename.substring(lastDotIndex + 1).toUpperCase(); // 대문자로 반환 (e.g., "JPG")
     }
 
+    public void deleteUploadFile(long id) {
+        uploadFileRepository.deleteById(id);
+    }
 }

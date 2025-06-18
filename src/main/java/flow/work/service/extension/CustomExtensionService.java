@@ -71,7 +71,7 @@ public class CustomExtensionService {
         }
     }
 
-    public void deleteCustomExtension(CustomExtensionDeleteRequest request) {
-        customExtensionRepository.deleteById(request.id());
+    public void deleteCustomExtension(long id) {
+        customExtensionRepository.deleteById(id);
     }
 }
