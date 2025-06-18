@@ -42,15 +42,13 @@
                 </span>
             </div>
         </div>
-
-        <button onclick="location.href='/custom-extensions/reset'">초기화</button>
     </div>
 
     <!-- 파일 업로드 -->
     <div>
         <h3>파일 업로드</h3>
-        <form th:action="@{/files}" method="post" enctype="multipart/form-data">
-            <input type="file" name="file">
+        <form id="upload-form" enctype="multipart/form-data">
+            <input type="file" id="upload-file" name="file">
             <button type="submit">업로드</button>
         </form>
 
@@ -104,25 +102,68 @@
             alert('확장자를 입력해주세요.');
             return;
         }
-        $.post('/api/custom-extensions', { name })
-            .done(() => {
-                $('#custom-input').val(''); // 입력 필드 초기화
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/custom-extensions',
+            contentType: 'application/json',
+            data: JSON.stringify({ name }),
+            success: () => {
+                $('#custom-input').val('');
                 location.reload();
-            })
-            .fail(() => alert('추가 실패'));
+            },
+            error: () => alert('추가 실패')
+        });
     });
 
     // 커스텀 확장자 삭제
     $(document).on('click', '.delete-custom', function (e) {
         e.preventDefault();
         const id = $(this).data('id');
+
         $.ajax({
             type: 'DELETE',
-            url: `/api/custom-extensions/${id}/delete`,
-            success: () => $(`#ext-${id}`).remove(),
+            url: '/api/custom-extensions',
+            contentType: 'application/json',
+            data: JSON.stringify({ id }),
+            success: () => {
+                alert('삭제 완료');
+                location.reload(); // 초기화 후 새로고침
+            },
             error: () => alert('삭제 실패')
         });
     });
+
+    $('#upload-form').submit(function (e) {
+        e.preventDefault(); // 폼 기본 제출 막기
+
+        const formData = new FormData();
+        const fileInput = $('#upload-file')[0];
+
+        if (!fileInput.files.length) {
+            alert('업로드할 파일을 선택해주세요.');
+            return;
+        }
+
+        formData.append('file', fileInput.files[0]);
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/file',
+            data: formData,
+            processData: false, // 파일 전송 시 필수
+            contentType: false,
+            success: () => {
+                alert('파일 업로드 성공');
+                location.reload(); // 성공 후 새로고침하여 리스트 반영
+            },
+            error: () => {
+                alert('파일 업로드 실패');
+            }
+        });
+    });
+
+
 </script>
 
 </body>
