@@ -1,6 +1,7 @@
 package flow.work.controller.extension;
 
 import flow.work.dto.req.CustomExtensionAddRequest;
+import flow.work.dto.req.CustomExtensionDeleteRequest;
 import flow.work.dto.req.FixedExtensionUpdateRequest;
 import flow.work.service.extension.CustomExtensionService;
 import flow.work.service.extension.FixedExtensionService;
@@ -30,6 +31,12 @@ public class ExtensionApiController {
     @PostMapping("/custom-extensions")
     public ResponseEntity<Void> addCustomExtension(@RequestBody CustomExtensionAddRequest request) {
         customExtensionService.addCustomExtension(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/custom-extensions")
+    public ResponseEntity<Void> deleteCustomExtension(@RequestBody CustomExtensionDeleteRequest request) {
+        customExtensionService.deleteCustomExtension(request);
         return ResponseEntity.ok().build();
     }
 }

@@ -1,6 +1,7 @@
 package flow.work.service.extension;
 
 import flow.work.dto.req.CustomExtensionAddRequest;
+import flow.work.dto.req.CustomExtensionDeleteRequest;
 import flow.work.dto.res.CustomExtensionResponse;
 import flow.work.dto.res.CustomExtensionResponse.Extension;
 import flow.work.entity.extension.CustomExtension;
@@ -66,7 +67,7 @@ public class CustomExtensionService {
         }
     }
 
-    public void deleteCustomExtension() {
-
+    public void deleteCustomExtension(CustomExtensionDeleteRequest request) {
+        customExtensionRepository.deleteById(request.id());
     }
 }
