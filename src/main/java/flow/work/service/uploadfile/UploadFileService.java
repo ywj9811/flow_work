@@ -2,7 +2,7 @@ package flow.work.service.uploadfile;
 
 import flow.work.dto.res.UploadFileResponse;
 import flow.work.dto.res.UploadFileResponse.FileInfo;
-import flow.work.entity.extension.FixedExtension;
+import flow.work.entity.extension.FixedExtensionType;
 import flow.work.entity.uploadfile.UploadFile;
 import flow.work.mapper.UploadFileMapper;
 import flow.work.repository.extension.CustomExtensionRepository;
@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -31,17 +30,17 @@ public class UploadFileService {
     }
 
     public void addUploadFile(MultipartFile file) {
-        List<String> extensions = new ArrayList<>(
-                customExtensionRepository.findAll().stream()
-                        .map(customExtension -> customExtension.getName())
-                        .toList()
-        );
-        fixedExtensionRepository.findAllByIsCheckTrue()
-                .forEach(fixedExtension -> extensions.add(fixedExtension.getName().name()));
-
         String extension = extractExtension(file.getOriginalFilename());
-        if (extensions.contains(extension))
+
+        if (customExtensionRepository.existsByName(extension)) {
             throw new IllegalArgumentException("차단된 확장자가 포함되어 있습니다.");
+        }
+
+        FixedExtensionType.from(extension).ifPresent(value -> {
+            if (fixedExtensionRepository.findByNameAndIsCheckTrue(value).isPresent()) {
+                throw new IllegalArgumentException("차단된 확장자가 포함되어 있습니다.");
+            }
+        });
 
         UploadFile uploadFile = UploadFileMapper.toUploadFile(file.getOriginalFilename());
         uploadFileRepository.save(uploadFile);
