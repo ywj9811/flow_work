@@ -1,18 +1,16 @@
 package flow.work.service.extension;
 
 import flow.work.dto.req.CustomExtensionAddRequest;
-import flow.work.dto.req.CustomExtensionDeleteRequest;
 import flow.work.dto.res.CustomExtensionResponse;
 import flow.work.dto.res.CustomExtensionResponse.Extension;
 import flow.work.entity.extension.CustomExtension;
-import flow.work.entity.extension.FixedExtensionType;
 import flow.work.mapper.ExtensionMapper;
 import flow.work.repository.extension.CustomExtensionRepository;
+import flow.work.validation.ExtensionValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -21,6 +19,7 @@ import java.util.List;
 @Transactional
 public class CustomExtensionService {
     private final CustomExtensionRepository customExtensionRepository;
+    private final ExtensionValidator extensionValidator;
 
     @Transactional(readOnly = true)
     public CustomExtensionResponse allCustomExtension() {
@@ -34,41 +33,17 @@ public class CustomExtensionService {
 
     public void addCustomExtension(CustomExtensionAddRequest request) {
         String cleaned = sanitizeExtension(request);
-        validateCustomExtension(cleaned);
+        extensionValidator.validateCustomExtension(cleaned);
 
         CustomExtension customExtension = ExtensionMapper.toCustomExtension(cleaned);
         customExtensionRepository.save(customExtension);
     }
 
     private String sanitizeExtension(CustomExtensionAddRequest request) {
-        String cleaned = request.name()
+        return request.name()
                 .replace(".", "")
                 .replaceAll("\\s+", "")
                 .toUpperCase();
-        return cleaned;
-    }
-
-    private void validateCustomExtension(String cleaned) {
-        if (cleaned.length() > 20) {
-            throw new IllegalArgumentException("확장자는 최대 20자까지 가능합니다.");
-        }
-
-        if (!cleaned.matches("^[A-Z]+$")) {
-            throw new IllegalArgumentException("확장자는 알파벳만 입력 가능합니다.");
-        }
-
-        if (customExtensionRepository.count() >= 200) {
-            throw new IllegalStateException("최대 200개의 확장자만 등록할 수 있습니다.");
-        }
-
-        if (customExtensionRepository.existsByName(cleaned)) {
-            throw new IllegalArgumentException("이미 등록된 확장자입니다.");
-        }
-
-        if (Arrays.stream(FixedExtensionType.values())
-                .anyMatch(type -> type.name().equalsIgnoreCase(cleaned))) {
-            throw new IllegalArgumentException("고정 확장자와 중복될 수 없습니다.");
-        }
     }
 
     public void deleteCustomExtension(long id) {

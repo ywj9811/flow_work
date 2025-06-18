@@ -2,12 +2,10 @@ package flow.work.service.uploadfile;
 
 import flow.work.dto.res.UploadFileResponse;
 import flow.work.dto.res.UploadFileResponse.FileInfo;
-import flow.work.entity.extension.FixedExtensionType;
 import flow.work.entity.uploadfile.UploadFile;
 import flow.work.mapper.UploadFileMapper;
-import flow.work.repository.extension.CustomExtensionRepository;
-import flow.work.repository.extension.FixedExtensionRepository;
 import flow.work.repository.file.UploadFileRepository;
+import flow.work.validation.ExtensionValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,8 +16,7 @@ import java.util.List;
 @Service
 public class UploadFileService {
     private final UploadFileRepository uploadFileRepository;
-    private final CustomExtensionRepository customExtensionRepository;
-    private final FixedExtensionRepository fixedExtensionRepository;
+    private final ExtensionValidator extensionValidator;
 
     public UploadFileResponse allUploadFile() {
         List<FileInfo> fileInfos = uploadFileRepository.findAll().stream()
@@ -31,17 +28,7 @@ public class UploadFileService {
 
     public void addUploadFile(MultipartFile file) {
         String extension = extractExtension(file.getOriginalFilename());
-
-        if (customExtensionRepository.existsByName(extension)) {
-            throw new IllegalArgumentException("차단된 확장자가 포함되어 있습니다.");
-        }
-
-        FixedExtensionType.from(extension).ifPresent(value -> {
-            if (fixedExtensionRepository.findByNameAndIsCheckTrue(value).isPresent()) {
-                throw new IllegalArgumentException("차단된 확장자가 포함되어 있습니다.");
-            }
-        });
-
+        extensionValidator.validate(extension);
         UploadFile uploadFile = UploadFileMapper.toUploadFile(file.getOriginalFilename());
         uploadFileRepository.save(uploadFile);
     }
