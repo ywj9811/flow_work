@@ -53,10 +53,9 @@
         </form>
 
         <h4>업로드 된 파일</h4>
-        <div th:each="file : ${uploadedFiles}" class="file-item">
+        <div th:each="file : ${uploadFileResponse.fileInfos}" class="file-item">
             <span th:text="${file.name}"></span>
-            <span th:text="${file.size} + ' mb'"></span>
-            <span th:text="${#temporals.format(file.uploadedAt, 'yyyy-MM-dd')}"></span>
+            <span th:text="${#temporals.format(file.createdAt, 'yyyy-MM-dd')}"></span>
             <a th:href="@{/files/{id}/delete(id=${file.id})}">🗑</a>
         </div>
     </div>

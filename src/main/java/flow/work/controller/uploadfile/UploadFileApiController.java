@@ -1,4 +1,4 @@
-package flow.work.controller.extension;
+package flow.work.controller.uploadfile;
 
 import flow.work.service.uploadfile.UploadFileService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +18,6 @@ public class UploadFileApiController {
     @PostMapping("/file")
     public ResponseEntity<Void> uploadFile(@RequestParam("file") MultipartFile file) {
         uploadFileService.addUploadFile(file);
-        return ResponseEntity.ok().build(); // AJAX 성공 응답
+        return ResponseEntity.ok().build();
     }
 }
