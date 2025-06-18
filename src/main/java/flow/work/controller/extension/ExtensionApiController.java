@@ -34,9 +34,9 @@ public class ExtensionApiController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/custom-extensions")
-    public ResponseEntity<Void> deleteCustomExtension(@RequestBody CustomExtensionDeleteRequest request) {
-        customExtensionService.deleteCustomExtension(request);
+    @DeleteMapping("/custom-extensions/{id}")
+    public ResponseEntity<Void> deleteCustomExtension(@PathVariable long id) {
+        customExtensionService.deleteCustomExtension(id);
         return ResponseEntity.ok().build();
     }
 }

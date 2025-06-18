@@ -56,7 +56,7 @@
         <div th:each="file : ${uploadFileResponse.fileInfos}" class="file-item">
             <span th:text="${file.name}"></span>
             <span th:text="${#temporals.format(file.createdAt, 'yyyy-MM-dd')}"></span>
-            <a th:href="@{/files/{id}/delete(id=${file.id})}">🗑</a>
+            <a href="#" class="delete-file" th:data-id="${file.id}">🗑</a>
         </div>
     </div>
 
@@ -115,23 +115,22 @@
         });
     });
 
-    // 커스텀 확장자 삭제
+    // 커스텀 확장자 삭제 (PathVariable 방식)
     $(document).on('click', '.delete-custom', function (e) {
         e.preventDefault();
         const id = $(this).data('id');
 
         $.ajax({
             type: 'DELETE',
-            url: '/api/custom-extensions',
-            contentType: 'application/json',
-            data: JSON.stringify({ id }),
+            url: `/api/custom-extensions/${id}`,
             success: () => {
                 alert('삭제 완료');
-                location.reload(); // 초기화 후 새로고침
+                location.reload();
             },
             error: () => alert('삭제 실패')
         });
     });
+
 
     $('#upload-form').submit(function (e) {
         e.preventDefault(); // 폼 기본 제출 막기
@@ -159,6 +158,23 @@
             error: () => {
                 alert('파일 업로드 실패');
             }
+        });
+    });
+    // 파일 삭제
+    $(document).on('click', '.delete-file', function (e) {
+        e.preventDefault();
+        const id = $(this).data('id');
+
+        if (!confirm('정말 삭제하시겠습니까?')) return;
+
+        $.ajax({
+            type: 'DELETE',
+            url: `/api/file/${id}`,
+            success: () => {
+                alert('삭제 완료');
+                location.reload();
+            },
+            error: () => alert('삭제 실패')
         });
     });
 
