@@ -1,4 +1,4 @@
-package flow.work.entity.file;
+package flow.work.entity.uploadfile;
 
 import flow.work.util.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class File extends BaseTimeEntity {
+public class UploadFile extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long fileId;
