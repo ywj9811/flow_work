@@ -77,7 +77,9 @@
                 alert('저장 완료');
                 location.reload(); // 저장 후 새로고침으로 최신 상태 반영
             },
-            error: () => alert('오류 발생')
+            error: (xhr) => {
+                alert(xhr.responseText);
+            }
         });
     });
 
@@ -89,7 +91,9 @@
                 alert('초기화 완료');
                 location.reload(); // 초기화 후 새로고침
             },
-            error: () => alert('초기화 실패')
+            error: (xhr) => {
+                alert(xhr.responseText);
+            }
         });
     });
 
@@ -111,7 +115,9 @@
                 $('#custom-input').val('');
                 location.reload();
             },
-            error: () => alert('추가 실패')
+            error: (xhr) => {
+                alert(xhr.responseText);
+            }
         });
     });
 
@@ -127,7 +133,9 @@
                 alert('삭제 완료');
                 location.reload();
             },
-            error: () => alert('삭제 실패')
+            error: (xhr) => {
+                alert(xhr.responseText);
+            }
         });
     });
 
@@ -155,8 +163,8 @@
                 alert('파일 업로드 성공');
                 location.reload(); // 성공 후 새로고침하여 리스트 반영
             },
-            error: () => {
-                alert('파일 업로드 실패');
+            error: (xhr) => {
+                alert(xhr.responseText);
             }
         });
     });
@@ -174,7 +182,9 @@
                 alert('삭제 완료');
                 location.reload();
             },
-            error: () => alert('삭제 실패')
+            error: (xhr) => {
+                alert(xhr.responseText);
+            }
         });
     });
 
