@@ -3,6 +3,7 @@ package flow.work.service.extension;
 import flow.work.dto.req.FixedExtensionUpdateRequest;
 import flow.work.dto.res.FixedExtensionResponse;
 import flow.work.dto.res.FixedExtensionResponse.Extension;
+import flow.work.mapper.ExtensionMapper;
 import flow.work.repository.extension.FixedExtensionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class FixedExtensionService {
     @Transactional(readOnly = true)
     public FixedExtensionResponse allFixedExtension() {
         List<Extension> extensions = fixedExtensionRepository.findAll().stream()
-                .map(FixedExtensionResponse::from)
+                .map(ExtensionMapper::toFixedExtension)
                 .toList();
 
         return new FixedExtensionResponse(extensions);
