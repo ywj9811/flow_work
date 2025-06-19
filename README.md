@@ -1,15 +1,4 @@
-# Extension Blocking API
-
-## 개발 환경 및 기술 스택
-- **Back-End**: Java 17, Spring Boot 3.5.0, Spring Data JPA
-- **Front-End**: Thymeleaf, jQuery
-- **Database**: MySQL
-- **테스트**: JUnit5, BDDMockito
-- **API 문서화**: Springdoc OpenAPI (Swagger UI)
-- **빌드 툴**: Gradle
-- **인프라** : AWS EC2, AWS RDS, Docker hub, Docker-Compose, GithubActions
-
----
+# Extension Blocking
 
 # 기능 요구사항
 어떤 파일들은 첨부시 보안에 문제가 될 수 있습니다. 특히 exe, sh 등의 실행파일이 존재할 경우 서버에 올려서 실행이 될 수 있는 위험이 있어 파일 확장자 차단을 하게 되었습니다.
@@ -86,6 +75,17 @@
 
 ---
 
+## 개발 환경 및 기술 스택
+- **Back-End**: Java 17, Spring Boot 3.5.0, Spring Data JPA
+- **Front-End**: Thymeleaf, jQuery
+- **Database**: MySQL
+- **테스트**: JUnit5, BDDMockito
+- **API 문서화**: Springdoc OpenAPI (Swagger UI)
+- **빌드 툴**: Gradle
+- **인프라** : AWS EC2, AWS RDS, Docker Hub, Docker-Compose, Github Actions
+
+---
+
 ## API 명세서
 
 ### 고정 확장자 관련
@@ -99,15 +99,15 @@
 
 | Method | Endpoint | 설명 | 요청 본문 | 응답 코드 |
 | --- | --- | --- | --- | --- |
-| `POST` | `/api/custom-extensions` | 커스텀 확장자 추가 | `{ "name": "exe" }` | 200 OK or 500 |
-| `DELETE` | `/api/custom-extensions/{id}` | 커스텀 확장자 삭제 | Path Variable (`id`) | 200 OK |
+| `POST` | `/api/custom-extensions` | 커스텀 확장자 추가 | `{ "name": "exe" }` |
+| `DELETE` | `/api/custom-extensions/{id}` | 커스텀 확장자 삭제 | Path Variable (`id`) |
 
 ### 파일 업로드 관련
 
 | Method | Endpoint | 설명 | 요청 내용 | 응답 코드 |
-| --- | --- | --- | --- | --- |
-| `POST` | `/api/file` | 파일 업로드 | Multipart Form (`file`) | 200 OK or 500 |
-| `DELETE` | `/api/file/{id}` | 업로드 파일 삭제 | Path Variable (`id`) | 200 OK |
+| --- | --- | --- | --- |  |
+| `POST` | `/api/file` | 파일 업로드 | Multipart Form (`file`) |
+| `DELETE` | `/api/file/{id}` | 업로드 파일 삭제 | Path Variable (`id`) |
 
 ---
 
@@ -131,3 +131,11 @@
 
 > 모든 메시지는 ExtensionExceptionMessage, UploadFileExceptionMessage enum으로 관리됩니다.
 >
+
+## ERD
+
+![img.png](img.png)
+
+## 결과물
+
+![img_1.png](img_1.png)
