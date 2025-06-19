@@ -46,8 +46,7 @@ public class ExtensionValidator {
             throw new CustomExtensionAlreadyException();
         }
 
-            if (Arrays.stream(FixedExtensionType.values())
-                .anyMatch(type -> type.name().equalsIgnoreCase(cleaned))) {
+        if (Arrays.stream(FixedExtensionType.values()).anyMatch(type -> type.name().equalsIgnoreCase(cleaned))) {
             throw new CustomExtensionConflictWithFixedException();
         }
     }
