@@ -92,22 +92,22 @@
 
 ### 고정 확장자 관련
 
-| Method | Endpoint | 설명 | 요청 본문 / 파라미터 | 응답 코드 |
+| Method | Endpoint | 설명 | 요청 | 응답 코드 |
 | --- | --- | --- | --- | --- |
 | `POST` | `/api/fixed-extensions` | 고정 확장자 상태 변경 | `{ "checkedIds": [1, 2] }` | 200 OK |
 | `POST` | `/api/fixed-extensions/reset` | 고정 확장자 전체 초기화 | 없음 | 200 OK |
 
 ### 커스텀 확장자 관련
 
-| Method | Endpoint | 설명 | 요청 본문 | 응답 코드 |
-| --- | --- | --- | --- | --- |
+| Method | Endpoint | 설명 | 요청 | 응답 코드 |
+| --- | --- | --- | -- | --- |
 | `POST` | `/api/custom-extensions` | 커스텀 확장자 추가 | `{ "name": "exe" }` | 200 OK |
 | `DELETE` | `/api/custom-extensions/{id}` | 커스텀 확장자 삭제 | Path Variable (`id`) | 200 OK |
 
 ### 파일 업로드 관련
 
-| Method | Endpoint | 설명 | 요청 내용 | 응답 코드  |
-| --- | --- | --- | --- |--------|
+| Method | Endpoint | 설명 | 요청 | 응답 코드  |
+| --- | --- | --- | -- |--------|
 | `POST` | `/api/file` | 파일 업로드 | Multipart Form (`file`) | 200 OK |
 | `DELETE` | `/api/file/{id}` | 업로드 파일 삭제 | Path Variable (`id`) | 200 OK |
 
