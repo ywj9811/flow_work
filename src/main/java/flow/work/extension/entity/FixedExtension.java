@@ -18,7 +18,7 @@ public class FixedExtension extends BaseTimeEntity {
     private long fixedExtensionId;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private FixedExtensionType name;
 
     @Column(nullable = false)
