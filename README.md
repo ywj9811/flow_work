@@ -127,9 +127,9 @@
 
 ### 업로드 파일 관련
 
-| 예외 타입 | 메시지 |
-| --- | --- |
-| `BlockedExtensionException` | 해당 확장자는 차단되어 업로드할 수 없습니다. |
+| 예외 타입 | 메시지                 |
+| --- |---------------------|
+| `BlockedExtensionException` | 차단된 확장자가 포함되어 있습니다. |
 
 > 모든 메시지는 ExtensionExceptionMessage, UploadFileExceptionMessage enum으로 관리됩니다.
 >
