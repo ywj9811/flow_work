@@ -60,7 +60,7 @@ public class UploadFileApiControllerTest {
                 .addUploadFile(any());
 
         mockMvc.perform(multipart("/api/file").file(file))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string(BLOCKED_EXTENSION.getMessage()));
     }
 }

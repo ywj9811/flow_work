@@ -88,7 +88,7 @@ public class ExtensionApiControllerTest {
         mockMvc.perform(post("/api/custom-extensions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string(INVALID_EXTENSION_FORMAT.getMessage()));
     }
 
@@ -105,7 +105,7 @@ public class ExtensionApiControllerTest {
         mockMvc.perform(post("/api/custom-extensions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isConflict())
                 .andExpect(content().string(CUSTOM_EXTENSION_ALREADY.getMessage()));
     }
 
@@ -122,7 +122,7 @@ public class ExtensionApiControllerTest {
         mockMvc.perform(post("/api/custom-extensions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isConflict())
                 .andExpect(content().string(CUSTOM_EXTENSION_CONFLICT_WITH_FIXED.getMessage()));
     }
 
@@ -139,7 +139,7 @@ public class ExtensionApiControllerTest {
         mockMvc.perform(post("/api/custom-extensions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string(CUSTOM_EXTENSION_LIMIT_EXCEED.getMessage()));
     }
 
@@ -157,7 +157,7 @@ public class ExtensionApiControllerTest {
         mockMvc.perform(post("/api/custom-extensions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string(EXTENSION_LENGTH_EXCEED.getMessage()));
     }
 
