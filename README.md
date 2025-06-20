@@ -136,8 +136,8 @@
 
 ## ERD
 
-![img.png](img.png)
+![erd.png](assets/erd.png)
 
 ## 결과물
 
-![img_2.png](img_2.png)
+![result.png](assets/result.png)
