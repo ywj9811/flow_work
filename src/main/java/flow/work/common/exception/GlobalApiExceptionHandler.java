@@ -13,7 +13,7 @@ public class GlobalApiExceptionHandler {
     @ExceptionHandler(ApplicationException.class)
     public ResponseEntity<String> handleApplicationException(ApplicationException ex) {
         log.error(LOG_FORMAT, ex.getMessage());
-        return ResponseEntity.internalServerError().body(ex.getMessage());
+        return ResponseEntity.status(ex.httpStatus).body(ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
