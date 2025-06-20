@@ -117,21 +117,21 @@
 
 ### 커스텀 확장자 관련
 
-| 예외 타입 | 메시지 |
-| --- | --- |
-| `ExtensionLengthExceedException` | 최대 20자 까지 가능합니다. |
-| `InvalidExtensionFormatException` | 확장자는 알파벳과 숫자만 입력 가능합니다. |
-| `CustomExtensionLimitExceedException` | 최대 200개의 확장자만 등록할 수 있습니다. |
-| `CustomExtensionAlreadyException` | 이미 등록된 확장자입니다. |
-| `CustomExtensionConflictWithFixedException` | 고정 확장자와 중복될 수 없습니다. |
+| 예외 타입 | 메시지 | 상태 코드           |
+| --- | --- |-----------------|
+| `ExtensionLengthExceedException` | 최대 20자 까지 가능합니다. | 400 Bad Request |
+| `InvalidExtensionFormatException` | 확장자는 알파벳과 숫자만 입력 가능합니다. | 400 Bad Request |
+| `CustomExtensionLimitExceedException` | 최대 200개의 확장자만 등록할 수 있습니다. | 400 Bad Request |
+| `CustomExtensionAlreadyException` | 이미 등록된 확장자입니다. | 409 Conflict    |
+| `CustomExtensionConflictWithFixedException` | 고정 확장자와 중복될 수 없습니다. | 409 Conflict |
 
 ### 업로드 파일 관련
 
-| 예외 타입 | 메시지                 |
-| --- |---------------------|
-| `BlockedExtensionException` | 차단된 확장자가 포함되어 있습니다. |
+| 예외 타입 | 메시지                 | 상태 코드 |
+| --- | --- | --- |
+| `BlockedExtensionException` | 차단된 확장자가 포함되어 있습니다. | 400 Bad Request |
 
-> 모든 메시지는 ExtensionExceptionMessage, UploadFileExceptionMessage enum으로 관리됩니다.
+> 모든 메시지 및 상태코드는 ExtensionExceptionMessage, UploadFileExceptionMessage enum으로 관리됩니다.
 >
 
 ## ERD
@@ -141,3 +141,10 @@
 ## 결과물
 
 ![result.png](assets/result.png)
+
+## 결과물 주소
+
+> 사용자 페이지: [http://3.39.58.145/](http://3.39.58.145/)
+>
+> Swagger 문서: [http://3.39.58.145/swagger-ui/index.html](http://3.39.58.145/swagger-ui/index.html)
+> 
