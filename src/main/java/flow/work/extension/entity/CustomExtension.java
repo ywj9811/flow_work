@@ -1,6 +1,6 @@
 package flow.work.extension.entity;
 
-import flow.work.common.util.BaseTimeEntity;
+import flow.work.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package flow.work.common.util;
+package flow.work.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
